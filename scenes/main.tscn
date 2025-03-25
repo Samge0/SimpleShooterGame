@@ -1,0 +1,72 @@
+[gd_scene load_steps=10 format=3 uid="uid://dx4u8j3c1kh6f"]
+
+[ext_resource type="Script" uid="uid://cu8i6xlptgq1k" path="res://scripts/main.gd" id="1_esbhp"]
+[ext_resource type="PackedScene" uid="uid://cnhvaqc7hgkd1" path="res://scenes/player.tscn" id="2_fjs5q"]
+[ext_resource type="PackedScene" uid="uid://di16n87i15qlm" path="res://scenes/bullet.tscn" id="3_3w8a2"]
+[ext_resource type="PackedScene" uid="uid://bh2axubgcl8d4" path="res://scenes/enemy.tscn" id="4_5v3qf"]
+[ext_resource type="PackedScene" uid="uid://cya22vp7yjflx" path="res://scenes/item.tscn" id="5_7rl1u"]
+[ext_resource type="Script" uid="uid://d3bsssxacjkwf" path="res://scripts/game_manager.gd" id="6_5h5yr"]
+[ext_resource type="PackedScene" uid="uid://2s18k05wafj" path="res://scenes/ui.tscn" id="7_fkd7o"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_wfpmh"]
+size = Vector2(1382, 20)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_q6pdc"]
+size = Vector2(20, 782)
+
+[node name="Main" type="Node2D"]
+script = ExtResource("1_esbhp")
+player_scene = ExtResource("2_fjs5q")
+bullet_scene = ExtResource("3_3w8a2")
+enemy_scenes = Array[PackedScene]([ExtResource("4_5v3qf")])
+item_scenes = Array[PackedScene]([ExtResource("5_7rl1u")])
+
+[node name="Background" type="ColorRect" parent="."]
+offset_right = 1280.0
+offset_bottom = 720.0
+color = Color(0.1, 0.1, 0.1, 1)
+
+[node name="GameManager" type="Node" parent="."]
+script = ExtResource("6_5h5yr")
+enemy_scenes = Array[PackedScene]([ExtResource("4_5v3qf")])
+item_scenes = Array[PackedScene]([ExtResource("5_7rl1u")])
+
+[node name="SpawnTimer" type="Timer" parent="GameManager"]
+
+[node name="DifficultyTimer" type="Timer" parent="GameManager"]
+wait_time = 30.0
+
+[node name="GameOverUI" type="Control" parent="GameManager"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -1.0
+offset_right = -1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Boundaries" type="StaticBody2D" parent="."]
+collision_layer = 4
+collision_mask = 3
+
+[node name="TopWall" type="CollisionShape2D" parent="Boundaries"]
+position = Vector2(640, -10)
+shape = SubResource("RectangleShape2D_wfpmh")
+
+[node name="BottomWall" type="CollisionShape2D" parent="Boundaries"]
+position = Vector2(640, 730)
+shape = SubResource("RectangleShape2D_wfpmh")
+
+[node name="LeftWall" type="CollisionShape2D" parent="Boundaries"]
+position = Vector2(-10, 360)
+shape = SubResource("RectangleShape2D_q6pdc")
+
+[node name="RightWall" type="CollisionShape2D" parent="Boundaries"]
+position = Vector2(1290, 360)
+shape = SubResource("RectangleShape2D_q6pdc")
+
+[node name="UI" parent="." instance=ExtResource("7_fkd7o")]
+
+[connection signal="timeout" from="GameManager/SpawnTimer" to="GameManager" method="_on_spawn_timer_timeout"]
+[connection signal="timeout" from="GameManager/DifficultyTimer" to="GameManager" method="_on_difficulty_timer_timeout"]

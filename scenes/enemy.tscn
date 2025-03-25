@@ -1,0 +1,28 @@
+[gd_scene load_steps=4 format=3 uid="uid://bh2axubgcl8d4"]
+
+[ext_resource type="Script" uid="uid://cmn7s7gtvyqy5" path="res://scripts/enemy.gd" id="1_3p6k8"]
+[ext_resource type="Texture2D" uid="uid://b10agt13uoblv" path="res://assets/enemies/enemy_basic.svg" id="2_xuwi7"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_3vgsb"]
+radius = 30.0
+
+[node name="Enemy" type="CharacterBody2D"]
+script = ExtResource("1_3p6k8")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_xuwi7")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_3vgsb")
+
+[node name="HitArea" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HitArea"]
+shape = SubResource("CircleShape2D_3vgsb")
+
+[node name="DamageFlashTimer" type="Timer" parent="."]
+wait_time = 0.1
+one_shot = true
+
+[connection signal="body_entered" from="HitArea" to="." method="_on_hit_area_body_entered"]
+[connection signal="timeout" from="DamageFlashTimer" to="." method="_on_damage_flash_timer_timeout"]

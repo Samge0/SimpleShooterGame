@@ -1,0 +1,216 @@
+[gd_scene load_steps=8 format=3 uid="uid://2s18k05wafj"]
+
+[ext_resource type="Script" uid="uid://c5lbu7al6jyq0" path="res://scripts/ui.gd" id="1_25vp4"]
+[ext_resource type="Texture2D" uid="uid://dkmiv3tl6rx8f" path="res://assets/weapons/weapon_basic.svg" id="2_hqjdf"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_fwkdl"]
+bg_color = Color(0.2, 0.2, 0.2, 0.8)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_3lhqr"]
+bg_color = Color(0.8, 0.2, 0.2, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_y14c2"]
+bg_color = Color(0.2, 0.8, 0.2, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_h5i3u"]
+bg_color = Color(0.2, 0.2, 0.2, 0.9)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_t7ayr"]
+bg_color = Color(0.2, 0.2, 0.2, 0.8)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[node name="UI" type="CanvasLayer"]
+script = ExtResource("1_25vp4")
+
+[node name="HealthBar" type="ProgressBar" parent="."]
+offset_left = 20.0
+offset_top = 20.0
+offset_right = 320.0
+offset_bottom = 50.0
+theme_override_styles/background = SubResource("StyleBoxFlat_fwkdl")
+theme_override_styles/fill = SubResource("StyleBoxFlat_3lhqr")
+value = 100.0
+show_percentage = false
+
+[node name="HealthLabel" type="Label" parent="."]
+offset_left = 20.0
+offset_top = 20.0
+offset_right = 320.0
+offset_bottom = 50.0
+text = "100/100"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="WeaponPanel" type="Panel" parent="."]
+offset_left = 20.0
+offset_top = 60.0
+offset_right = 180.0
+offset_bottom = 120.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_fwkdl")
+
+[node name="WeaponIcon" type="TextureRect" parent="."]
+offset_left = 30.0
+offset_top = 70.0
+offset_right = 90.0
+offset_bottom = 110.0
+texture = ExtResource("2_hqjdf")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="WeaponLabel" type="Label" parent="."]
+offset_left = 100.0
+offset_top = 70.0
+offset_right = 170.0
+offset_bottom = 110.0
+text = "基础枪"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ScoreLabel" type="Label" parent="."]
+offset_left = 20.0
+offset_top = 130.0
+offset_right = 180.0
+offset_bottom = 156.0
+theme_override_styles/normal = SubResource("StyleBoxFlat_y14c2")
+text = "分数: 0"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="WaveLabel" type="Label" parent="."]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -180.0
+offset_top = 20.0
+offset_right = -20.0
+offset_bottom = 46.0
+grow_horizontal = 0
+theme_override_styles/normal = SubResource("StyleBoxFlat_y14c2")
+text = "波次: 1"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="WaveTransition" type="Label" parent="."]
+visible = false
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -200.0
+offset_top = -40.0
+offset_right = 200.0
+offset_bottom = 40.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 48
+theme_override_styles/normal = SubResource("StyleBoxFlat_h5i3u")
+text = "第 1 波"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="WaveTransitionTimer" type="Timer" parent="."]
+wait_time = 2.0
+one_shot = true
+
+[node name="GameOverPanel" type="Panel" parent="."]
+visible = false
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -200.0
+offset_top = -150.0
+offset_right = 200.0
+offset_bottom = 150.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_t7ayr")
+
+[node name="GameOverLabel" type="Label" parent="GameOverPanel"]
+layout_mode = 0
+offset_left = 20.0
+offset_top = 20.0
+offset_right = 380.0
+offset_bottom = 60.0
+theme_override_font_sizes/font_size = 32
+text = "游戏结束"
+horizontal_alignment = 1
+
+[node name="ScoreLabel" type="Label" parent="GameOverPanel"]
+layout_mode = 0
+offset_left = 20.0
+offset_top = 80.0
+offset_right = 380.0
+offset_bottom = 110.0
+text = "你的分数:"
+horizontal_alignment = 1
+
+[node name="ScoreValue" type="Label" parent="GameOverPanel"]
+layout_mode = 0
+offset_left = 20.0
+offset_top = 110.0
+offset_right = 380.0
+offset_bottom = 140.0
+theme_override_font_sizes/font_size = 24
+text = "0"
+horizontal_alignment = 1
+
+[node name="HighscoreLabel" type="Label" parent="GameOverPanel"]
+layout_mode = 0
+offset_left = 20.0
+offset_top = 150.0
+offset_right = 380.0
+offset_bottom = 180.0
+text = "最高分数:"
+horizontal_alignment = 1
+
+[node name="HighscoreValue" type="Label" parent="GameOverPanel"]
+layout_mode = 0
+offset_left = 20.0
+offset_top = 180.0
+offset_right = 380.0
+offset_bottom = 210.0
+theme_override_font_sizes/font_size = 24
+text = "0"
+horizontal_alignment = 1
+
+[node name="RestartButton" type="Button" parent="GameOverPanel"]
+layout_mode = 0
+offset_left = 50.0
+offset_top = 220.0
+offset_right = 350.0
+offset_bottom = 250.0
+text = "重新开始"
+
+[node name="QuitButton" type="Button" parent="GameOverPanel"]
+layout_mode = 0
+offset_left = 50.0
+offset_top = 260.0
+offset_right = 350.0
+offset_bottom = 290.0
+text = "退出游戏"
+
+[connection signal="timeout" from="WaveTransitionTimer" to="." method="_on_wave_transition_timer_timeout"]
+[connection signal="pressed" from="GameOverPanel/RestartButton" to="." method="_on_restart_button_pressed"]
+[connection signal="pressed" from="GameOverPanel/QuitButton" to="." method="_on_quit_button_pressed"]
